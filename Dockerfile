@@ -29,6 +29,13 @@ COPY requirements_all.txt requirements_all.txt
 # See PR #8103 for more info.
 RUN pip3 install --no-cache-dir -r requirements_all.txt && \
     pip3 install --no-cache-dir mysqlclient psycopg2 uvloop cchardet cython tensorflow
+    
+# kbentlage: START Install HEOS media player integration
+RUN apt-get install git
+RUN pip3 install git+https://github.com/easink/aioheos.git
+RUN mkdir -p /usr/src/app/homeassistant/custom_components/media_player
+RUN curl https://raw.githubusercontent.com/easink/hass.aioheos.media_player/master/heos.py -o /usr/src/app/homeassistant/custom_components/media_player/heos.py
+# kbentlage: END Install HEOS media player integration 
 
 # Copy source
 COPY . .
